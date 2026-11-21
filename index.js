@@ -47,6 +47,27 @@ app.get("/weather",(req,res)=>{
         temp_c:30,
       })
 })
+app.delete("/products/:id",(req,res)=>{
+    const {id} = req.params;
+    products = products.filter((product)=> product.id !== parseInt(id))
+    res.status(204).send();
+});
+
+app.put("/products/:id", (req, res) => {
+  const { id } = req.params;
+  const updatedProduct = req.body;
+  const index = products.findIndex((product) => product.id === parseInt(id));
+  if (index !== -1) {
+    products[index] = { ...products[index], ...updatedProduct };
+    res.json(products[index]);
+  } else {
+    res.status(404).json({ message: "Product not found" });
+  }
+});
+
+//Port Assign
+
+
 app.listen(5050,()=>{
     console.log("server is running on port 5050")
 })
